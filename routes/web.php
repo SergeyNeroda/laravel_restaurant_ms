@@ -68,6 +68,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/admin','Admin\AdminController@index')->name('admin');
         Route::resource('product','Admin\ProductController');
+        // :)
+        
+
         Route::resource('category','Admin\CategoryController');
         Route::resource('/file','Admin\FileController');
         Route::resource('tag','Admin\TagController');
@@ -101,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         Route::post('/graph/orders','Admin\AdminController@graphOrders')->name('graph');
+        
 
     });
     // //група маршрутів для касира
@@ -126,7 +130,23 @@ Route::group(['middleware' => 'auth'], function () {
     // });
   });
 
-// Route::get('/home','HomeController@index');
+Route::name('client')->group( function () {
+
+  Route::get('/shop','Client\ClientController@shop');
+  Route::get('/shop/category/{id}','Client\ClientController@shopCategory');
+  Route::get('/shop/product/{id}','Client\ClientController@productDetail');
+  //роути для корзини товарів
+  Route::get('/cart','Client\CartController@index');
+  Route::get('/cart/add/{id}','Client\CartController@addToCart');
+  Route::get('/cart/reduce/{id}', 'Client\CartController@getReduceByOne');
+  Route::get('/cart/removeItem/{id}','Client\CartController@getRemoveItem');
+//маршрут для замовлення
+  // Route::get('/checkout','Client\CartController@checkout');
+  // Route::get('/checkout','CheckoutController@index');
+  Route::get('/client','Client\ClientController@index');
+
+
+});
 //маршрути авторизації
 Auth::routes();
 //для локалізації
